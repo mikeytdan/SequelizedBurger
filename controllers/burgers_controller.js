@@ -2,7 +2,7 @@ var express = require("express");
 var path = require("path");
 var router = express.Router();
 
-var burger = require(path.join(__dirname, '../models/burger'));
+var db = require("../models");
 
 function booleanValue(value) {
     if (typeof (value) === 'string') {
@@ -21,7 +21,7 @@ function booleanValue(value) {
 
 // Create all our routes and set up logic within those routes where required.
 router.get("/", function (req, res) {
-    burger.all(function (result) {
+    db.Burger.findAll({}).then(function (result) {
         var eatenBurgers = [];
         var uneatenBurgers = [];
         for (item of result) {
@@ -42,20 +42,25 @@ router.get("/", function (req, res) {
 
 router.post("/api/burger", function (req, res) {
     var devoured = booleanValue(req.body.devoured);
-    var obj = {
+    db.Burger.create({
         burger_name: req.body.name,
         devoured: devoured
-    };
-    burger.create(obj, function (result) {
-        res.json({ id: result.id });
-    })
+    }).then(function (burger) {
+        res.json({ id: burger.id });
+    });
 });
 
 router.put("/api/burger/:id", function (req, res) {
     var devoured = booleanValue(req.body.devoured);
-    burger.update(req.params.id, devoured, function (result) {
-        res.status(200).end();
-    })
+    db.Burger.update({
+        devoured: devoured
+    }, {
+            where: {
+                id: req.params.id
+            }
+        }).then(function (burger) {
+            res.json(burger);
+        });
 });
 
 // Export routes for server.js to use.
