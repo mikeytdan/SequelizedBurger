@@ -21,7 +21,7 @@ function booleanValue(value) {
 
 // Create all our routes and set up logic within those routes where required.
 router.get("/", function (req, res) {
-    db.Burger.findAll({}).then(function (result) {
+    db.burgers.findAll({}).then(function (result) {
         var eatenBurgers = [];
         var uneatenBurgers = [];
         for (item of result) {
@@ -42,7 +42,7 @@ router.get("/", function (req, res) {
 
 router.post("/api/burger", function (req, res) {
     var devoured = booleanValue(req.body.devoured);
-    db.Burger.create({
+    db.burgers.create({
         burger_name: req.body.name,
         devoured: devoured
     }).then(function (burger) {
@@ -52,7 +52,7 @@ router.post("/api/burger", function (req, res) {
 
 router.put("/api/burger/:id", function (req, res) {
     var devoured = booleanValue(req.body.devoured);
-    db.Burger.update({
+    db.burgers.update({
         devoured: devoured
     }, {
             where: {
