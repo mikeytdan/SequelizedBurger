@@ -1,0 +1,55 @@
+<style>
+    table,
+    tr,
+    th,
+    thead,
+    tbody {
+        border-top: none;
+    }
+</style>
+
+<div class="container my-5">
+    <div class="jumbotron px-5 text-center">
+        <h1>Burgers!</h1>
+        <div class="row">
+            <div class="col">
+                <div class="text-left">
+                    <b>Burgers to Eat:</b>
+                </div>
+                {{#each uneatenBurgers }}
+                <div>
+                    <div scope="row" class="text-left align-middle">
+                        {{id}}. {{burger_name}}
+                        <button type="button" class="btn btn-outline-dark ml-5" id="devour-btn" value={{id}}>Devour</button>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+            <div class="col">
+                <table class="table border-0">
+                    <thead>
+                        <tr>
+                            <th class="text-left" scope="col">Eaten Burgers:</th>
+                        </tr>
+                    </thead>
+                    <tbody id='eaten'>
+                        {{#each eatenBurgers }}
+                        <tr>
+                            <th scope="row" class="text-left align-middle">
+                                {{id}}. {{burger_name}}
+                            </th>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <form>
+            <div class="form-group">
+                <label>Enter a burger you'd like:</label>
+                <textarea class="form-control text-center mb-3 mx-auto" id="burger-textarea" rows="3" style="width:300px;"></textarea>
+                <button type="button" class="btn btn-outline-dark" id="add-burger-btn" value={{id}}>Add Burger</button>
+            </div>
+        </form>
+    </div>
+</div>
